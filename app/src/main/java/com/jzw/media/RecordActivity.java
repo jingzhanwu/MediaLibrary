@@ -130,7 +130,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_camera:  //拍录制
+            case R.id.iv_camera:  //录制
                 mRecorder.startRecord();
                 break;
             case R.id.iv_ok:  //
