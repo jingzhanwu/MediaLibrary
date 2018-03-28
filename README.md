@@ -15,11 +15,11 @@
 
   一、JMediaView完成拍照录制
   
-    1、仅拍照：
+    1、仅录制：
         JMediaView.with(MainActivity.this)
                    .setMode(JCameraView.BUTTON_STATE_ONLY_RECORDER)
                    .startCamera();
-    2、仅录制：
+    2、仅拍照：
          JMediaView.with(MainActivity.this)
                    .setMode(JCameraView.BUTTON_STATE_ONLY_CAPTURE)
                    .startCamera();
@@ -169,7 +169,39 @@
             
         注：进入录制和拍照界面前一定要先申请录制和Camera、读写等权限，否则可能出现
             初始化失败。
-            
+   
+  三、音频播放控制器
+        
+        1、播放
+         PlayerManager.with().playAudio("音频地址", new PlayerManager.OnPlayerCallback() {
+                     @Override
+                     public void onPrepare(MediaPlayer mp) {
+                         //播放准备时回调
+                     }
+         
+                     @Override
+                     public void onStart(MediaPlayer mp, String url) {
+                            //开始播放时回调
+                     }
+         
+                     @Override
+                     public void onPlaying(MediaPlayer mp) {
+                            //播放中回调
+                     }
+         
+                     @Override
+                     public void onStop() {
+                            //停止播放时回调
+                     }
+         
+                     @Override
+                     public void onFaild(MediaPlayer mp) {
+                            //播放失败 出错时回调
+                     }
+                 });
+         2、停止：
+              PlayerManager.with().releasPlayer();
+              
   想体验MVP开发的点这里
   https://github.com/jingzhanwu/MvpBase
   

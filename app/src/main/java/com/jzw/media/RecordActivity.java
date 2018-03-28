@@ -1,5 +1,6 @@
 package com.jzw.media;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.jzw.media.library.camera.CameraCallback;
 import com.jzw.media.library.camera.CameraManager;
 import com.jzw.media.library.camera.OnVideoRecordListener;
 import com.jzw.media.library.camera.RecordManager;
+import com.jzw.media.library.player.PlayerManager;
 
 
 /**
