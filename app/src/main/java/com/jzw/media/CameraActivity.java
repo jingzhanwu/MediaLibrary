@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.dev.jzw.helper.util.ToastUtil;
 import com.jzw.media.library.camera.CameraCallback;
 import com.jzw.media.library.camera.CameraManager;
 
@@ -105,8 +105,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.iv_image:  //预览图片
-
-                ToastUtil.showToast(CameraActivity.this, "预览图片");
+                Toast.makeText(CameraActivity.this, "预览图片", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
