@@ -8,6 +8,7 @@
     4、支持UI自定义
     5、音频播放控制
 
+
 引入项目：
     compile 'com.jzw:medialibrary:1.0.1'
     
