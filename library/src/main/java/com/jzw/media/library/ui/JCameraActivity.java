@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 
 import com.dev.jzw.helper.picture.PictureView;
-import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.MediaConfig;
 import com.jzw.media.library.R;
 import com.jzw.media.library.media.JCameraView;
@@ -22,7 +21,7 @@ import com.jzw.media.library.media.JFile;
 import com.jzw.media.library.media.listener.ClickListener;
 import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.listener.JCameraListener;
-import com.jzw.media.library.media.util.ImageUtil;
+import com.jzw.media.library.media.util.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class JCameraActivity extends AppCompatActivity {
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 if (bitmap != null) {
-                    String path = ImageUtil.saveBitmap(bitmap);
+                    String path = FileUtil.saveBitmap(bitmap);
                     JFile file = new JFile();
                     file.setType(JFile.PICTURE_TYPE);
                     file.setWidth(bitmap.getWidth());
@@ -118,7 +117,7 @@ public class JCameraActivity extends AppCompatActivity {
                     file.setType(JFile.VIDEO_TYPE);
                     file.setUrl(url);
                     if (firstFrame != null) {
-                        String path = ImageUtil.saveBitmap(firstFrame);
+                        String path = FileUtil.saveBitmap(firstFrame);
                         file.setBitmapPath(path);
                         file.setWidth(firstFrame.getWidth());
                         file.setHeight(firstFrame.getHeight());

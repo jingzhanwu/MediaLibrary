@@ -17,20 +17,18 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.ImageView;
 
 
-import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.util.AngleUtil;
 import com.jzw.media.library.media.util.CameraParamUtil;
 import com.jzw.media.library.media.util.CheckPermission;
 import com.jzw.media.library.media.util.DeviceUtil;
-import com.jzw.media.library.media.util.ImageUtil;
+import com.jzw.media.library.media.util.FileUtil;
 import com.jzw.media.library.media.util.LogUtil;
 import com.jzw.media.library.media.util.ScreenUtils;
 
@@ -603,7 +601,7 @@ public class CameraInterface implements Camera.PreviewCallback {
         videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
 
         if (saveVideoPath.equals("")) {
-            saveVideoPath = FileUtil.getVideoDir();
+            saveVideoPath = com.dev.jzw.helper.util.FileUtil.getVideoDir();
         }
         videoFileAbsPath = saveVideoPath + File.separator + videoFileName;
         mediaRecorder.setOutputFile(videoFileAbsPath);
@@ -651,7 +649,7 @@ public class CameraInterface implements Camera.PreviewCallback {
                 isRecorder = false;
             }
             if (isShort) {
-                if (ImageUtil.deleteFile(videoFileAbsPath)) {
+                if (FileUtil.deleteFile(videoFileAbsPath)) {
                     callback.recordResult(null, null);
                 }
                 return;

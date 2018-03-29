@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:textColor="@color/jzw_white"
+        android:textColor="#fff"
         android:textSize="12sp" />
 
     <RelativeLayout

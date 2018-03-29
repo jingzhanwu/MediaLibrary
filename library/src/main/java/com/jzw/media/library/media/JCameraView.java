@@ -31,7 +31,7 @@ import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.listener.JCameraListener;
 import com.jzw.media.library.media.listener.TypeListener;
 import com.jzw.media.library.media.state.CameraMachine;
-import com.jzw.media.library.media.util.ImageUtil;
+import com.jzw.media.library.media.util.FileUtil;
 import com.jzw.media.library.media.util.LogUtil;
 import com.jzw.media.library.media.util.ScreenUtils;
 import com.jzw.media.library.media.view.CameraView;
@@ -452,7 +452,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
             case TYPE_VIDEO:
                 stopVideo();    //停止播放
                 //初始化VideoView
-                ImageUtil.deleteFile(videoUrl);
+                FileUtil.deleteFile(videoUrl);
                 mVideoView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 machine.start(mVideoView.getHolder(), screenProp);
                 break;

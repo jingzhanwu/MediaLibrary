@@ -8,13 +8,12 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Surface;
 
-import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.Utils;
+import com.jzw.media.library.media.util.FileUtil;
 
 import java.io.File;
 import java.util.List;
@@ -380,7 +379,7 @@ public class RecordManager implements IStatus {
      * @return
      */
     private boolean deleteFile(String fileName) {
-        return FileUtil.deleteFileFromDir(fileName, false);
+        return FileUtil.deleteFileFromDir(new File(fileName), false);
     }
 
     public MediaRecorder getMediaRecorder() {
