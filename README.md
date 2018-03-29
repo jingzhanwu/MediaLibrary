@@ -9,7 +9,7 @@
     5、音频播放控制
 
 引入项目：
-    compile 'com.jzw.media:medialibrary:1.0.1'
+    compile 'com.jzw:medialibrary:1.0.1'
     
 使用：
 
