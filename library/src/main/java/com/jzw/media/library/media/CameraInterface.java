@@ -23,12 +23,12 @@ import android.view.SurfaceHolder;
 import android.widget.ImageView;
 
 
+import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.util.AngleUtil;
 import com.jzw.media.library.media.util.CameraParamUtil;
 import com.jzw.media.library.media.util.CheckPermission;
 import com.jzw.media.library.media.util.DeviceUtil;
-import com.jzw.media.library.media.util.FileUtil;
 import com.jzw.media.library.media.util.LogUtil;
 import com.jzw.media.library.media.util.ScreenUtils;
 

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 
+import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.R;
 import com.jzw.media.library.media.listener.CaptureListener;
 import com.jzw.media.library.media.listener.ClickListener;
@@ -31,7 +32,6 @@ import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.listener.JCameraListener;
 import com.jzw.media.library.media.listener.TypeListener;
 import com.jzw.media.library.media.state.CameraMachine;
-import com.jzw.media.library.media.util.FileUtil;
 import com.jzw.media.library.media.util.LogUtil;
 import com.jzw.media.library.media.util.ScreenUtils;
 import com.jzw.media.library.media.view.CameraView;
@@ -607,6 +607,9 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
     public void setRightImage(Bitmap bitmap) {
         mCaptureLayout.setRightImage(bitmap);
+    }
+    public void setRightDrawable(Drawable drawable) {
+        mCaptureLayout.setRightDrawable(drawable);
     }
 
     public void setLeftImage(Bitmap bitmap) {

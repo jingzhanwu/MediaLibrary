@@ -13,7 +13,11 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 
+import com.dev.jzw.helper.picture.OnDeleteItemListener;
 import com.dev.jzw.helper.picture.PictureView;
+import com.dev.jzw.helper.util.BitmapUtil;
+import com.dev.jzw.helper.util.FileUtil;
+import com.dev.jzw.helper.util.ToastUtil;
 import com.jzw.media.library.MediaConfig;
 import com.jzw.media.library.R;
 import com.jzw.media.library.media.JCameraView;
@@ -21,9 +25,7 @@ import com.jzw.media.library.media.JFile;
 import com.jzw.media.library.media.listener.ClickListener;
 import com.jzw.media.library.media.listener.ErrorListener;
 import com.jzw.media.library.media.listener.JCameraListener;
-import com.jzw.media.library.media.util.FileUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +89,7 @@ public class JCameraActivity extends AppCompatActivity {
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 if (bitmap != null) {
-                    String path = FileUtil.saveBitmap(bitmap);
+                    String path = BitmapUtil.saveBitmap(bitmap);
                     JFile file = new JFile();
                     file.setType(JFile.PICTURE_TYPE);
                     file.setWidth(bitmap.getWidth());
@@ -117,7 +119,7 @@ public class JCameraActivity extends AppCompatActivity {
                     file.setType(JFile.VIDEO_TYPE);
                     file.setUrl(url);
                     if (firstFrame != null) {
-                        String path = FileUtil.saveBitmap(firstFrame);
+                        String path = BitmapUtil.saveBitmap(firstFrame);
                         file.setBitmapPath(path);
                         file.setWidth(firstFrame.getWidth());
                         file.setHeight(firstFrame.getHeight());
@@ -175,46 +177,52 @@ public class JCameraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 浏览大图
+     */
     private void browserPicture() {
-        if (mFiles.size() > 0) {
-            final List<File> files = new ArrayList<>();
-            for (JFile file : mFiles) {
-                if (file.getType() == JFile.PICTURE_TYPE) {
-                    files.add(new File(file.getUrl()));
-                }
-            }
-            if (files.size() > 0) {
-                PictureView.with(JCameraActivity.this)
-                        .setFiles(files, 0)
-                        .setOnDeleteItemListener(new PictureView.OnDeleteItemListener() {
-                            @Override
-                            public void onDelete(int position) {
-                                String path = files.get(position).getPath();
-                                files.remove(position);
-                                //查找需要删除的图片索引
-                                List<Integer> pos = new ArrayList<>();
-                                for (int i = 0; i < mFiles.size(); i++) {
-                                    if (mFiles.get(i).getUrl().equals(path)) {
-                                        pos.add(i);
-                                    }
-                                }
-                                //删除对应的图片
-                                if (pos.size() > 0) {
-                                    for (Integer i : pos) {
-                                        FileUtil.deleteFile(mFiles.get(i.intValue()).getUrl());
-                                        mFiles.remove(i.intValue());
-                                    }
-                                }
-
-                            }
-                        })
-                        .create();
-            } else {
-                Toast.makeText(JCameraActivity.this, "暂无图片", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(JCameraActivity.this, "暂无图片", Toast.LENGTH_SHORT).show();
+        if (mFiles == null || mFiles.size() <= 0) {
+            ToastUtil.showToast(this, "暂无图片");
+            return;
         }
+
+        final List<String> urls = new ArrayList<>();
+        for (JFile file : mFiles) {
+            if (file.getType() == JFile.PICTURE_TYPE) {
+                urls.add(file.getUrl());
+            }
+        }
+
+        PictureView.with(JCameraActivity.this)
+                .setUrls(urls, 0)
+                .enableDelete(true)
+                .setOnDeleteItemListener(new OnDeleteItemListener() {
+                    @Override
+                    public void onDelete(int position) {
+                        String path = urls.get(position);
+                        urls.remove(position);
+                        //查找需要删除的图片索引
+                        List<Integer> pos = new ArrayList<>();
+                        for (int i = 0; i < mFiles.size(); i++) {
+                            if (mFiles.get(i).getUrl().equals(path)) {
+                                pos.add(i);
+                            }
+                        }
+                        //删除对应的图片
+                        if (pos.size() > 0) {
+                            for (Integer i : pos) {
+                                FileUtil.deleteFile(mFiles.get(i.intValue()).getUrl());
+                                mFiles.remove(i.intValue());
+                            }
+                        }
+
+                        if (urls.size() <= 0) {
+                            //修改右下角图标
+                            jCameraView.setRightDrawable(getResources().getDrawable(R.drawable.ic_photo));
+                        }
+                    }
+                })
+                .create();
     }
 
     @Override

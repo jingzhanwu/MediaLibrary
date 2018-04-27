@@ -1,10 +1,8 @@
 package com.jzw.media.library.camera;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,8 +10,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Surface;
 
+import com.dev.jzw.helper.util.FileUtil;
 import com.jzw.media.library.Utils;
-import com.jzw.media.library.media.util.FileUtil;
 
 import java.io.File;
 import java.util.List;

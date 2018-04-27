@@ -365,6 +365,10 @@ public class CaptureLayout extends FrameLayout {
         iv_custom_right.setImageBitmap(bmp);
     }
 
+    public void setRightDrawable(Drawable drawable) {
+        iv_custom_right.setImageDrawable(drawable);
+    }
+
     public void setLeftImage(Bitmap bmp) {
         iv_custom_left.setImageBitmap(bmp);
     }
