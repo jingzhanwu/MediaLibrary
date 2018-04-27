@@ -28,7 +28,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation 'com.jzw.dev:devutils:2.0'
+    implementation 'com.jzw.dev:devutils:2.1'
 }
 
 apply from: "upload.gradle"
