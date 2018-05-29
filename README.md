@@ -10,7 +10,7 @@
 
 
 引入项目：
-    compile 'com.jzw:medialibrary:1.1.2'
+    compile 'com.jzw:medialibrary:1.1.3'
     
 使用：
 
