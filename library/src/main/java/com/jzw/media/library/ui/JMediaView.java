@@ -1,6 +1,8 @@
 package com.jzw.media.library.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 
 import com.dev.jzw.helper.util.FileUtil;
@@ -16,8 +18,12 @@ import com.jzw.media.library.media.JCameraView;
  **/
 public class JMediaView {
 
-    private static JMediaView mInstance;
     private static Activity mActivity;
+    private static Fragment mFragment;
+    /**
+     * 请求码
+     */
+    private int mRequestCode;
     /**
      * 摄像头模式，拍照 ，录制  拍照+录制
      */
@@ -48,15 +54,17 @@ public class JMediaView {
     }
 
     public static JMediaView with(Activity activity) {
+        return get(activity, null);
+    }
+
+    public static JMediaView with(Fragment fragment) {
+        return get(fragment.getActivity(), fragment);
+    }
+
+    private static JMediaView get(Activity activity, Fragment fragment) {
         mActivity = activity;
-        if (mInstance == null) {
-            synchronized (JMediaView.class) {
-                if (mInstance == null) {
-                    mInstance = new JMediaView();
-                }
-            }
-        }
-        return mInstance;
+        mFragment = fragment;
+        return new JMediaView();
     }
 
     private void init() {
@@ -65,39 +73,46 @@ public class JMediaView {
         mTip = "轻触拍照，长按录制";
         mMediaQuality = JCameraView.MEDIA_QUALITY_MIDDLE;
         mMaxDuration = 1000 * 60;
+
+        mRequestCode = -1;
     }
 
     public JMediaView setMode(int mode) {
         mMode = mode;
-        return mInstance;
+        return this;
     }
 
     public JMediaView enableMultiPicture(boolean multiPicture) {
         mMultiPic = multiPicture;
-        return mInstance;
+        return this;
     }
 
     public JMediaView setVideoPath(String dirPath) {
         mVideoPath = dirPath;
-        return mInstance;
+        return this;
     }
 
     public JMediaView setTip(String tip) {
         mTip = tip;
-        return mInstance;
+        return this;
     }
 
     public JMediaView setMaxDuration(int duration) {
         mMaxDuration = duration;
-        return mInstance;
+        return this;
     }
 
     public JMediaView setMediaQuality(int mediaQuality) {
         mMediaQuality = mediaQuality;
-        return mInstance;
+        return this;
     }
 
-    public JMediaView startCamera() {
+    public void startCamera(int requestCode) {
+        mRequestCode = requestCode;
+        startCamera();
+    }
+
+    public void startCamera() {
         int code = MediaConfig.PICTURE_VIDEO_CODE;
         if (mMode == JCameraView.BUTTON_STATE_ONLY_CAPTURE) {
             code = MediaConfig.PICTURE_CODE;
@@ -110,6 +125,14 @@ public class JMediaView {
             code = MediaConfig.PICTURE_VIDEO_CODE;
         }
 
+        if (mRequestCode >= 0) {
+            code = mRequestCode;
+        }
+
+        if (mActivity == null) {
+            return;
+        }
+
         Intent intent = new Intent(mActivity, JCameraActivity.class);
         intent.putExtra("mode", mMode);
         intent.putExtra("videoPath", mVideoPath);
@@ -118,8 +141,11 @@ public class JMediaView {
         intent.putExtra("multiPic", mMultiPic);
         intent.putExtra("duration", mMaxDuration);
 
-        mActivity.startActivityForResult(intent, code);
-        return mInstance;
-    }
 
+        if (mFragment != null) {
+            mFragment.startActivityForResult(intent, code);
+        } else {
+            mActivity.startActivityForResult(intent, code);
+        }
+    }
 }
