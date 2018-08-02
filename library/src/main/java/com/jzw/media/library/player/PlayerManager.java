@@ -13,12 +13,11 @@ import java.io.IOException;
  * @describe 音视频 播放管理类
  **/
 public class PlayerManager {
-
     /**
      * 录制 和播放的文件地址
      */
     private String filePath;
-    private static MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private OnPlayerCallback mCallback;
 
     private static PlayerManager mInstance;
@@ -28,11 +27,7 @@ public class PlayerManager {
 
     public static PlayerManager get() {
         if (mInstance == null) {
-            synchronized (PlayerManager.class) {
-                if (mInstance == null) {
-                    mInstance = new PlayerManager();
-                }
-            }
+            mInstance = new PlayerManager();
         }
         return mInstance;
     }
@@ -42,20 +37,16 @@ public class PlayerManager {
     }
 
     public void setOnPlayerCallback(OnPlayerCallback callback) {
-        if (mCallback == null) {
-            mCallback = callback;
-        }
+        mCallback = callback;
     }
 
     public PlayerManager playAudio(String audioPath, OnPlayerCallback callback) {
         if (TextUtils.isEmpty(audioPath)) {
             return mInstance;
         }
-        if (mCallback == null) {
-            mCallback = callback;
-        }
-        filePath = audioPath;
         releasPlayer();
+        mCallback = callback;
+        filePath = audioPath;
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.reset();
@@ -87,10 +78,10 @@ public class PlayerManager {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    releasPlayer();
                     if (mCallback != null) {
                         mCallback.onStop();
                     }
+                    stop();
                 }
             });
 
@@ -113,24 +104,28 @@ public class PlayerManager {
      * 释放播放器资源
      */
     public void releasPlayer() {
-        try {
-            if (mediaPlayer != null) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                        filePath = null;
-                    }
-                }.start();
-                if (mCallback != null) {
-                    mCallback.onStop();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        stop();
+        if (mCallback != null) {
+            mCallback.onStop();
         }
+        mCallback = null;
+    }
+
+    private void stop() {
+        if (mediaPlayer == null) {
+            return;
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                mediaPlayer.release();
+                mediaPlayer = null;
+                filePath = null;
+            }
+        }.start();
     }
 
     public MediaPlayer getMediaPlayer() {
